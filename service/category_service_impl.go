@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"github.com/go-playground/validator"
 	"golang-restful-api/dtos"
 	"golang-restful-api/helper"
 	"golang-restful-api/models/domain"
@@ -13,6 +14,7 @@ import (
 type CategoryServiceImpl struct {
 	CategoryRepository repository.CategoryRepository
 	DB                 *sql.DB
+	Validator          *validator.Validate
 }
 
 func (categoryService CategoryServiceImpl) GETById(ctx context.Context, id uint) dtos.CategoryResponseDtos {
@@ -40,6 +42,8 @@ func (categoryService CategoryServiceImpl) GETAll(ctx context.Context) []dtos.Ca
 }
 
 func (categoryService CategoryServiceImpl) PUT(ctx context.Context, requestDtos dtos.CategoryRequestDtos) dtos.CategoryResponseDtos {
+	err := categoryService.Validator.Struct(requestDtos)
+	helper.PanicIfError(err)
 	tx, err := categoryService.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -58,6 +62,8 @@ func (categoryService CategoryServiceImpl) PUT(ctx context.Context, requestDtos 
 }
 
 func (categoryService CategoryServiceImpl) POST(ctx context.Context, requestDtos dtos.CategoryRequestDtos) dtos.CategoryResponseDtos {
+	err := categoryService.Validator.Struct(requestDtos)
+	helper.PanicIfError(err)
 	tx, err := categoryService.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -83,6 +89,6 @@ func (categoryService CategoryServiceImpl) DELETE(ctx context.Context, id uint) 
 	helper.PanicIfError(errNotFound)
 
 	if !categoryService.CategoryRepository.Delete(ctx, tx, id) {
-		panic(errors.New("Not Found"))
+		panic(errors.New("not Found"))
 	}
 }
