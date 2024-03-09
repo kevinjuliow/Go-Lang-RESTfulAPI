@@ -22,6 +22,7 @@ func (repo *CategoryRepositoryImpl) Save(ctx context.Context, tx *sql.Tx, catego
 
 	id, err := result.LastInsertId()
 	helper.PanicIfError(err)
+
 	category.Id = uint(id)
 
 	return category

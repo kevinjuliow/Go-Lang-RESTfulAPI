@@ -2,6 +2,7 @@ package app
 
 import (
 	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	"golang-restful-api/helper"
 	"time"
 )

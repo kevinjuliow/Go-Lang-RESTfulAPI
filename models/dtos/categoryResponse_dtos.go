@@ -1,6 +1,6 @@
 package dtos
 
 type CategoryResponseDtos struct {
-	Id   string
-	Name string
+	Id   uint `json:"id"`
+	Name string `json:"name"`
 }

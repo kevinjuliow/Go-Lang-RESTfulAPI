@@ -4,10 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/go-playground/validator"
-	"golang-restful-api/dtos"
 	"golang-restful-api/helper"
 	"golang-restful-api/models/domain"
+	dtos2 "golang-restful-api/models/dtos"
 	"golang-restful-api/repository"
 )
 
@@ -18,11 +19,11 @@ type CategoryServiceImpl struct {
 }
 
 // Create a constructor of CategoryService
-func NewCategoryServiceImpl(categoryRepository repository.CategoryRepository, DB *sql.DB, validator *validator.Validate) CategoryService {
+func NewCategoryServiceImpl(categoryRepository repository.CategoryRepository, DB *sql.DB, validator *validator.Validate) *CategoryServiceImpl {
 	return &CategoryServiceImpl{CategoryRepository: categoryRepository, DB: DB, Validator: validator}
 }
 
-func (categoryService CategoryServiceImpl) GETById(ctx context.Context, id uint) dtos.CategoryResponseDtos {
+func (categoryService *CategoryServiceImpl) GETById(ctx context.Context, id uint) dtos2.CategoryResponseDtos {
 	tx, err := categoryService.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
@@ -33,20 +34,20 @@ func (categoryService CategoryServiceImpl) GETById(ctx context.Context, id uint)
 	return helper.ToCategoryResponseDtos(category)
 }
 
-func (categoryService CategoryServiceImpl) GETAll(ctx context.Context) []dtos.CategoryResponseDtos {
+func (categoryService *CategoryServiceImpl) GETAll(ctx context.Context) []dtos2.CategoryResponseDtos {
 	tx, err := categoryService.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
 
 	categoryList := categoryService.CategoryRepository.Findall(ctx, tx)
-	var categoryListResponse []dtos.CategoryResponseDtos
+	var categoryListResponse []dtos2.CategoryResponseDtos
 	for _, category := range categoryList {
 		categoryListResponse = append(categoryListResponse, helper.ToCategoryResponseDtos(category))
 	}
 	return categoryListResponse
 }
 
-func (categoryService CategoryServiceImpl) PUT(ctx context.Context, requestDtos dtos.CategoryRequestDtos) dtos.CategoryResponseDtos {
+func (categoryService *CategoryServiceImpl) PUT(ctx context.Context, requestDtos dtos2.CategoryUpdateDtos) dtos2.CategoryResponseDtos {
 	err := categoryService.Validator.Struct(requestDtos)
 	helper.PanicIfError(err)
 	tx, err := categoryService.DB.Begin()
@@ -66,26 +67,26 @@ func (categoryService CategoryServiceImpl) PUT(ctx context.Context, requestDtos 
 	return helper.ToCategoryResponseDtos(category)
 }
 
-func (categoryService CategoryServiceImpl) POST(ctx context.Context, requestDtos dtos.CategoryRequestDtos) dtos.CategoryResponseDtos {
+func (categoryService *CategoryServiceImpl) POST(ctx context.Context, requestDtos dtos2.CategoryCreateDtos) dtos2.CategoryResponseDtos {
 	err := categoryService.Validator.Struct(requestDtos)
 	helper.PanicIfError(err)
 	tx, err := categoryService.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)
-
 	// Create a new category from requestDtos.
 	category := domain.Category{
 		Name: requestDtos.Name,
 	}
-
 	//implements save from repo
 	category = categoryService.CategoryRepository.Save(ctx, tx, category)
-
+	fmt.Println("in Service")
+	fmt.Println(category.Name)
+	fmt.Println(category.Id)
 	//Convert into Responses Type
 	return helper.ToCategoryResponseDtos(category)
 }
 
-func (categoryService CategoryServiceImpl) DELETE(ctx context.Context, id uint) {
+func (categoryService *CategoryServiceImpl) DELETE(ctx context.Context, id uint) {
 	tx, err := categoryService.DB.Begin()
 	helper.PanicIfError(err)
 	defer helper.CommitOrRollback(tx)

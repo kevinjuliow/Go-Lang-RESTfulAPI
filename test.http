@@ -1,0 +1,20 @@
+### Get All Categories
+GET http://localhost:8000/api/categories
+Accept: application/json
+
+
+### Get By Id
+GET http://localhost:8000/api/categories/3
+Accept: application/json
+
+### Create Category
+POST http://localhost:8000/api/categories
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name" : "laptop10"
+}
+
+### Delete Category
+DELETE http://localhost:8000/api/categories/1
