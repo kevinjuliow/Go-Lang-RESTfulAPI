@@ -23,5 +23,5 @@ A Simple Category RESTful API
 | `id`      | `uint` | **Required**. Id of item to fetch |
 
 
-#### For more details , You can check the API Spec , Using Open API
+For more details , You can check the API Spec , Using Open API
 
