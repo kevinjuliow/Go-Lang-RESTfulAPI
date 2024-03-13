@@ -19,3 +19,23 @@ This repository implements a simple category REST API using the Go programming l
 - `github.com/go-sql-driver/mysql` (v1.7.1 or later): MySQL database driver (if using a MySQL database)
 - `github.com/joho/godotenv` (v1.5.1 or later): Environment variable management
 - `github.com/julienschmidt/httprouter` (v1.3.0 or later): Routing library
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone [https://github.com/kevinjuliow/Go-Lang-RESTfulAPI](https://github.com/kevinjuliow/Go-Lang-RESTfulAPI)
+
+2. Open Project Directory
+
+   ```
+   cd Go-Lang-RESTfulAPI
+
+## Environment
+Remember to replace `DB_USERNAME` and `DB_PASSWORD` with your actual database credentials if you're using a MySQL database.
+
+    ```
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+    
