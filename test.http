@@ -1,14 +1,17 @@
 ### Get All Categories
 GET http://localhost:8000/api/categories
+X-API-Key: TESTING
 Accept: application/json
 
 
 ### Get By Id
 GET http://localhost:8000/api/categories/12
+X-API-Key: TESTING
 Accept: application/json
 
 ### Create Category
 POST http://localhost:8000/api/categories
+X-API-Key: TESTING
 Accept: application/json
 Content-Type: application/json
 
@@ -16,5 +19,17 @@ Content-Type: application/json
   "name" : "Tv"
 }
 
+### Update Category
+PUT http://localhost:8000/api/categories/1
+X-API-Key: TESTING
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "New"
+}
+
 ### Delete Category
+X-API-Key: TESTING
 DELETE http://localhost:8000/api/categories/1
+
