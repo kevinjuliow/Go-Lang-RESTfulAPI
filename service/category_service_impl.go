@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	"github.com/go-playground/validator"
+	"golang-restful-api/ErrorHandler"
 	"golang-restful-api/helper"
 	"golang-restful-api/models/domain"
 	dtos2 "golang-restful-api/models/dtos"
@@ -29,7 +29,9 @@ func (categoryService *CategoryServiceImpl) GETById(ctx context.Context, id uint
 	defer helper.CommitOrRollback(tx)
 
 	category, errNotFound := categoryService.CategoryRepository.FindById(ctx, tx, id)
-	helper.PanicIfError(errNotFound)
+	if errNotFound != nil {
+		panic(ErrorHandler.NewNotFoundError(errNotFound.Error()))
+	}
 
 	return helper.ToCategoryResponseDtos(category)
 }
@@ -55,7 +57,9 @@ func (categoryService *CategoryServiceImpl) PUT(ctx context.Context, requestDtos
 	defer helper.CommitOrRollback(tx)
 	//find if the id exists
 	category, err := categoryService.CategoryRepository.FindById(ctx, tx, requestDtos.Id)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(ErrorHandler.NotFoundError{err.Error()})
+	}
 
 	//update the Name from user
 	category.Name = requestDtos.Name
@@ -79,9 +83,6 @@ func (categoryService *CategoryServiceImpl) POST(ctx context.Context, requestDto
 	}
 	//implements save from repo
 	category = categoryService.CategoryRepository.Save(ctx, tx, category)
-	fmt.Println("in Service")
-	fmt.Println(category.Name)
-	fmt.Println(category.Id)
 	//Convert into Responses Type
 	return helper.ToCategoryResponseDtos(category)
 }
@@ -92,7 +93,9 @@ func (categoryService *CategoryServiceImpl) DELETE(ctx context.Context, id uint)
 	defer helper.CommitOrRollback(tx)
 
 	_, errNotFound := categoryService.CategoryRepository.FindById(ctx, tx, id)
-	helper.PanicIfError(errNotFound)
+	if errNotFound != nil {
+		panic(ErrorHandler.NotFoundError{err.Error()})
+	}
 
 	if !categoryService.CategoryRepository.Delete(ctx, tx, id) {
 		panic(errors.New("not Found"))

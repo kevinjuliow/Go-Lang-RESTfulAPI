@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/go-playground/validator"
 	"github.com/julienschmidt/httprouter"
+	"golang-restful-api/ErrorHandler"
 	"golang-restful-api/app"
 	"golang-restful-api/controller"
 	"golang-restful-api/helper"
@@ -24,6 +25,8 @@ func main() {
 	router.POST("/api/categories", category_controller.Create)
 	router.PUT("/api/categories/:category_id", category_controller.Update)
 	router.DELETE("/api/categories/:category_id", category_controller.Delete)
+
+	router.PanicHandler = ErrorHandler.ErrorHandler
 
 	server := http.Server{
 		Addr:    "localhost:8000",

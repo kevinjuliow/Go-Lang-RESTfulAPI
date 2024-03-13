@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"golang-restful-api/helper"
 	dtos2 "golang-restful-api/models/dtos"
@@ -28,9 +27,6 @@ func (controller *CategoryControllerImpl) Create(writer http.ResponseWriter, req
 
 	//Call the POST from service and convert to webResponse
 	categoryResponse := controller.Service.POST(request.Context(), categoryCreateRequest)
-	fmt.Println("in controller")
-	fmt.Println(categoryResponse.Name)
-	fmt.Println(categoryResponse.Id)
 	webResponse := dtos2.WebResponse{
 		Code:   http.StatusCreated,
 		Status: "Created",
