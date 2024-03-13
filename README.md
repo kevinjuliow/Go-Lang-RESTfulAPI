@@ -25,7 +25,7 @@ This repository implements a simple category REST API using the Go programming l
 1. Clone the repository:
 
    ```bash
-   git clone [https://github.com/kevinjuliow/Go-Lang-RESTfulAPI](https://github.com/kevinjuliow/Go-Lang-RESTfulAPI)
+   git clone https://github.com/kevinjuliow/Go-Lang-RESTfulAPI
 
 2. Open Project Directory
 
@@ -35,7 +35,6 @@ This repository implements a simple category REST API using the Go programming l
 ## Environment
 Remember to replace `DB_USERNAME` and `DB_PASSWORD` with your actual database credentials if you're using a MySQL database.
 
-    ```
     DB_USERNAME=your_username
     DB_PASSWORD=your_password
     
