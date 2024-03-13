@@ -1,27 +1,21 @@
+# Go-Lang-RESTfulAPI
 
-# Category RESTful API Go-Lang
+This repository implements a simple category REST API using the Go programming language.
 
-A Simple Category RESTful API 
+## Features
 
+- **CRUD Operations:**
+    - Create new categories (`POST /api/categories`)
+    - Retrieve all categories (`GET /api/categories`)
+    - Get a specific category by ID (`GET /api/categories/:category_id`)
+    - Update a category (`PUT /api/categories/:category_id`)
+    - Delete a category (`DELETE /api/categories/:category_id`)
+- **Authentication:**
+    - Requires a valid `X-API-Key` header set to `TESTING` for authorization (**Note:** This is only for practice purpose , not secure for production).
 
-## API Reference
+## Dependencies
 
-#### Get all Categories
-
-```http
-  GET /api/Categories
-```
-
-#### Get Categories By ID
-
-```http
-  GET /api/items/${category_id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `uint` | **Required**. Id of item to fetch |
-
-
-For more details , You can check the API Spec , Using Open API
-
+- `github.com/go-playground/validator` (v9.31.0 or later): Data validation
+- `github.com/go-sql-driver/mysql` (v1.7.1 or later): MySQL database driver (if using a MySQL database)
+- `github.com/joho/godotenv` (v1.5.1 or later): Environment variable management
+- `github.com/julienschmidt/httprouter` (v1.3.0 or later): Routing library
